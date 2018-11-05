@@ -17,6 +17,19 @@ def get_full_list():
         return None
 
 
+def get_earlist_list(first_k):
+    response = requests.get("https://api.coinmarketcap.com/v2/listings/")
+    if response.status_code == 200:
+        data_all = json.loads(response.content.decode('utf-8'))['data']
+        full_list = []
+        for data in data_all[:first_k]:
+            full_list.append(data['website_slug'])
+        return full_list
+    else:
+        print("no response from API")
+        return None
+
+
 def get_top_k_list(top_k):
     url = "https://api.coinmarketcap.com/v2/ticker/?start=1&limit=" + str(top_k) + "&sort=market_cap&structure=array"
     response = requests.get(url)

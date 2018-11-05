@@ -58,11 +58,17 @@ class DatabaseManagement:
             cursor.close()
 
 
-    def get_data_frame(self, symbol):
+    def get_df_symbol(self, symbol='BTC'):
 
         sql = "SELECT date, variable, value FROM %s.core WHERE asset='%s'" % (self.database, symbol)
         df = pd.read_sql(sql, con=self.connection)
         return df.pivot(index='date', columns='variable')['value']
+    
+    def get_df_variable(self, variable='Close'):
+        
+        sql = "SELECT date, asset, value FROM %s.core WHERE variable='%s'" % (self.database, variable)
+        df = pd.read_sql(sql, con=self.connection)
+        return df.pivot(index='date', columns='asset')['value']
 
 
 if __name__ == '__main__':
@@ -72,7 +78,10 @@ if __name__ == '__main__':
     db_config = config['mysql']
 
     #crypto_list = util.get_full_list()
-    crypto_list = util.get_top_k_list(100)
+    crypto_list = util.get_earlist_list(200)
+    #crypto_list = util.get_top_k_list(100)
+
+    print(crypto_list)
 
     db = DatabaseManagement(db_config, crypto_list)
     db.sync_cmc_data()
