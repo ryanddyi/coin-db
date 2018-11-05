@@ -72,7 +72,7 @@ if __name__ == '__main__':
     db_config = config['mysql']
 
     #crypto_list = util.get_full_list()
-    crypto_list = util.get_top_k_list(50)
+    crypto_list = util.get_top_k_list(100)
 
     db = DatabaseManagement(db_config, crypto_list)
     db.sync_cmc_data()
