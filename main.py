@@ -13,7 +13,7 @@ from cmc import coinmarketcap
 
 class DatabaseManagement:
 
-    def __init__(self, db_config, name_list):
+    def __init__(self, db_config, name_list=[]):
 
         self.database = db_config['database']
         self.name_list = name_list
